@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { NavigationItem } from "./navigation-item";
 import { socials_items } from "@/constants/navigation";

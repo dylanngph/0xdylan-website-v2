@@ -5,7 +5,6 @@ import { TypeAnimation } from "react-type-animation";
 
 const HomeTypeAnimation = () => {
   const isMobile = window.innerWidth <= 640;
-  console.log(isMobile);
   return (
     <TypeAnimation
       sequence={[

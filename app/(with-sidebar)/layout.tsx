@@ -2,8 +2,8 @@ import SessionProvider from "@/providers/session-provider";
 import "../globals.css";
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
-import Layout from "@/components/layout/layout";
 import { ThemeProvider } from "@/providers/theme-provider";
+import LayoutWithSidebar from "@/components/layout/layout-with-sidebar";
 
 const firaCode = Fira_Code({ subsets: ["latin"] });
 
@@ -20,11 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={firaCode.className}>
-        <SessionProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Layout>{children}</Layout>
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <SessionProvider>
+            <LayoutWithSidebar>{children}</LayoutWithSidebar>
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

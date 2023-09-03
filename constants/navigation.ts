@@ -12,8 +12,8 @@ export const header_items = [
     path: "/projects",
   },
   {
-    label: "_my-shop",
-    path: "/shop",
+    label: "_my-store",
+    path: "/store",
   },
   {
     label: "_contact",

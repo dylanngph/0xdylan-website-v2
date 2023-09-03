@@ -1,10 +1,10 @@
-"use client";
-
 import React from "react";
-import { SessionProvider as _SessionProvider } from "next-auth/react";
+import { ClerkProvider } from "@clerk/nextjs";
+import { authTheme } from "@/configs/auth-theme";
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
-  return <_SessionProvider>{children}</_SessionProvider>;
+  const theme = authTheme();
+  return <ClerkProvider appearance={theme}>{children}</ClerkProvider>;
 };
 
 export default SessionProvider;

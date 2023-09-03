@@ -1,17 +1,28 @@
-import { withAuth } from "next-auth/middleware"
+import { authMiddleware } from "@clerk/nextjs";
 
-// More on how NextAuth.js middleware works: https://next-auth.js.org/configuration/nextjs#middleware
-export default withAuth({
-  callbacks: {
-    authorized({ req, token }) {
-      // `/admin` requires admin role
-      if (req.nextUrl.pathname === "/admin") {
-        return token?.userRole === "admin"
-      }
-      // `/me` only requires the user to be logged in
-      return !!token
-    },
-  },
-})
+// This example protects all routes including api/trpc routes
+// Please edit this to allow other routes to be public as needed.
+// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
+export default authMiddleware({
+  // beforeAuth: (req) => {
+  //   return middleware(req);
+  // },
+  // An array of public routes that don't require authentication.
+  publicRoutes: [
+    "/",
+    "/about",
+    "/projects",
+    "/store",
+    "/contact",
+    "/sign-in",
+    "/sign-up",
+    "/api/webhook/clerk",
+  ],
 
-export const config = { matcher: ["/admin", "/me"] }
+  // An array of routes to be ignored by the authentication middleware.
+  ignoredRoutes: ["/api/webhook/clerk"],
+});
+
+export const config = {
+  matcher: ["/((?!.*\\..*|_next).*)", "/(api|trpc)(.*)"],
+};
