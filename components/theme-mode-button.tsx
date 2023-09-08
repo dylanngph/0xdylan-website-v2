@@ -3,14 +3,14 @@
 import React from "react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
-import ClientOnly from "./client-only";
+import Hydrated from "./hydrated";
 
 const ThemeModeButton = () => {
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
   return (
-    <ClientOnly>
+    <Hydrated>
       <Button
         variant="link"
         onClick={() => setTheme(isDark ? "light" : "dark")}
@@ -21,7 +21,7 @@ const ThemeModeButton = () => {
           <i className="ri-moon-fill" />
         )}
       </Button>
-    </ClientOnly>
+    </Hydrated>
   );
 };
 

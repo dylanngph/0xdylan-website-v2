@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { NavigationItem } from "./navigation-item";
 import ThemeModeButton from "../theme-mode-button";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { Skeleton } from "../ui/skeleton";
 
 const LogoSection = () => {
   return (
@@ -21,7 +19,6 @@ const LogoSection = () => {
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, isLoaded } = useUser();
 
   return (
     <header>
@@ -42,28 +39,12 @@ export default function Header() {
         </div>
         <div className="ml-auto hidden md:flex items-center h-full">
           <ThemeModeButton />
-          {!isLoaded ? (
-            <NavigationItem
-              label={<Skeleton className="w-[30px] h-[30px] rounded-full" />}
-              href=""
-              isActive={false}
-              borderPosition="left"
-            />
-          ) : user ? (
-            <NavigationItem
-              label={<UserButton showName afterSignOutUrl="/" />}
-              href=""
-              isActive={false}
-              borderPosition="left"
-            />
-          ) : (
-            <NavigationItem
-              label="_sign-in"
-              href="/sign-in"
-              isActive={pathname === "/sign-in"}
-              borderPosition="left"
-            />
-          )}
+          <NavigationItem
+            label="_sign-in"
+            href="/sign-in"
+            isActive={pathname === "/sign-in"}
+            borderPosition="left"
+          />
         </div>
         <div className="ml-auto block md:hidden h-full">
           <Button

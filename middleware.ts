@@ -1,28 +1,24 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { withAuth } from "next-auth/middleware";
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
-export default authMiddleware({
-  // beforeAuth: (req) => {
-  //   return middleware(req);
-  // },
-  // An array of public routes that don't require authentication.
-  publicRoutes: [
-    "/",
-    "/about",
-    "/projects",
-    "/store",
-    "/contact",
-    "/sign-in",
-    "/sign-up",
-    "/api/webhook/clerk",
-  ],
+export default withAuth(
+  // `withAuth` augments your `Request` with the user's token.
+  function middleware(req) {
+    console.log(req.nextauth.token);
+  },
+  {
+    callbacks: {
+      authorized({ req, token }) {
+        return !!token;
+      },
+    },
+    pages: {
+      signIn: "/auth/signin",
+      // signOut: "/auth/signout",
+      // error: "/auth/error", // Error code passed in query string as ?error=
+      // verifyRequest: "/auth/verify-request", // (used for check email message)
+      // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+    },
+  }
+);
 
-  // An array of routes to be ignored by the authentication middleware.
-  ignoredRoutes: ["/api/webhook/clerk"],
-});
-
-export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/(api|trpc)(.*)"],
-};
+export const config = { matcher: ["/dashboard:path*", "/cart", "/payment"] };

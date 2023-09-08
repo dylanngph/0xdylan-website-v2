@@ -17,10 +17,10 @@ interface IClientOnly {
   fallback?: React.ReactNode;
 }
 
-const ClientOnly: React.FC<IClientOnly> = ({ children, fallback = null }) => {
+const Hydrated: React.FC<IClientOnly> = ({ children, fallback = null }) => {
   return (
     <ClientOnlyWrapper fallback={fallback}>{() => children}</ClientOnlyWrapper>
   );
 };
 
-export default ClientOnly;
+export default Hydrated;
