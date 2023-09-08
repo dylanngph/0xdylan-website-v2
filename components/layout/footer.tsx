@@ -1,9 +1,5 @@
-"use client";
-
-import Link from "next/link";
-import { NavigationItem } from "./navigation-item";
+import { NavigationItem } from "./NavigationItem";
 import { socials_items } from "@/constants/navigation";
-import Image from "next/image";
 import { Button } from "../ui/button";
 
 export default function Footer() {
@@ -18,11 +14,12 @@ export default function Footer() {
           .map((item) => (
             <NavigationItem
               key={item.label}
-              label={<i className={`ri-${item.icon} text-[20px]`} />}
               href={item.path}
               isActive={false}
               borderPosition="right"
-            />
+            >
+              <i className={`ri-${item.icon} text-[20px]`} />
+            </NavigationItem>
           ))}
       </div>
       <div className="flex items-center md:hidden h-full justify-evenly">
@@ -44,16 +41,15 @@ export default function Footer() {
           .map((item) => (
             <NavigationItem
               key={item.label}
-              label={
-                <div className="flex items-center gap-2">
-                  <span>{item.cta}</span>
-                  <i className={`ri-${item.icon} text-[20px]`} />
-                </div>
-              }
               href={item.path}
               isActive={false}
               borderPosition="left"
-            />
+            >
+              <div className="flex items-center gap-2">
+                <span>{item.cta}</span>
+                <i className={`ri-${item.icon} text-[20px]`} />
+              </div>
+            </NavigationItem>
           ))}
       </div>
     </footer>

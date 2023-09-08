@@ -1,20 +1,19 @@
-"use client";
-
 import clsx from "clsx";
 import Link from "next/link";
+import React, { FC } from "react";
 
-export const NavigationItem = ({
-  label,
-  href,
-  isActive,
-  borderPosition = "right",
-  target,
-}: {
-  label: string | React.ReactNode;
-  href: string;
+interface INavigationItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
   isActive: boolean;
   borderPosition?: "left" | "right";
-  target?: "_blank" | "_self";
+  href: string;
+}
+
+export const NavigationItem: FC<INavigationItemProps> = ({
+  isActive,
+  borderPosition = "right",
+  children,
+  href,
+  ...props
 }) => {
   return (
     <Link href={href} passHref legacyBehavior>
@@ -32,9 +31,9 @@ export const NavigationItem = ({
           //   true,
           "hover:text-foreground": !isActive,
         })}
-        target={target}
+        {...props}
       >
-        {label}
+        {children}
       </a>
     </Link>
   );

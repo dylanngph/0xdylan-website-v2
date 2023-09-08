@@ -1,7 +1,5 @@
-"use client";
-
 import { Fragment, ReactNode } from "react";
-import { useHydrated } from "@/lib/hooks/useHydrated";
+import { useHydrated } from "@/hooks/useHydrated";
 
 type Props = {
   children(): ReactNode;

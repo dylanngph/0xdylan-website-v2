@@ -1,10 +1,8 @@
-"use client";
-
 import React, { useState } from "react";
 import { FC, Fragment } from "react";
 import { Button } from "./ui/button";
-import { Icons } from "./icon";
-import { cn } from "@/lib/shadcn/utils";
+import { Icons } from "./Icon";
+import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";

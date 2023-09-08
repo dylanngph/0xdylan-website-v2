@@ -1,9 +1,7 @@
-"use client";
-
 import React from "react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
-import Hydrated from "./hydrated";
+import Hydrated from "./Hydrated";
 
 const ThemeModeButton = () => {
   const { theme, setTheme } = useTheme();

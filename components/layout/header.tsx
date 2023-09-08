@@ -1,11 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import { header_items } from "@/constants/navigation";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
-import { NavigationItem } from "./navigation-item";
-import ThemeModeButton from "../theme-mode-button";
+import { NavigationItem } from "./NavigationItem";
+import ThemeModeButton from "../ThemeModeButton";
+import { useSession } from "next-auth/react";
 
 const LogoSection = () => {
   return (
@@ -19,6 +18,7 @@ const LogoSection = () => {
 
 export default function Header() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   return (
     <header>
@@ -28,23 +28,27 @@ export default function Header() {
           {header_items.map((item, index) => {
             const isActive = pathname === item.path;
             return (
-              <NavigationItem
-                key={index}
-                label={item.label}
-                href={item.path}
-                isActive={isActive}
-              />
+              <NavigationItem key={index} href={item.path} isActive={isActive}>
+                {item.label}
+              </NavigationItem>
             );
           })}
         </div>
         <div className="ml-auto hidden md:flex items-center h-full">
           <ThemeModeButton />
-          <NavigationItem
-            label="_sign-in"
-            href="/sign-in"
-            isActive={pathname === "/sign-in"}
-            borderPosition="left"
-          />
+          {!session ? (
+            <NavigationItem
+              href="/auth/sign-in"
+              isActive={pathname === "/sign-in"}
+              borderPosition="left"
+            >
+              Sign in
+            </NavigationItem>
+          ) : (
+            <NavigationItem href="#" isActive={false} borderPosition="left">
+              Logged
+            </NavigationItem>
+          )}
         </div>
         <div className="ml-auto block md:hidden h-full">
           <Button
