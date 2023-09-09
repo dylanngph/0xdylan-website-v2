@@ -1,9 +1,13 @@
 import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
-    console.log(req.nextauth.token);
+    if (req.nextUrl.pathname === "/my") {
+      console.log(req.nextUrl.pathname);
+      return NextResponse.redirect("/my/profile");
+    }
   },
   {
     callbacks: {

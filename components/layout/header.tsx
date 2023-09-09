@@ -1,16 +1,22 @@
 import Link from "next/link";
 import { header_items } from "@/constants/navigation";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { NavigationItem } from "./NavigationItem";
 import ThemeModeButton from "../ThemeModeButton";
 import { useSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/configs/next-auth";
+import { cn } from "@/lib/utils";
+import UserButton from "../UserButton";
+import { Skeleton } from "../ui/skeleton";
 
 const LogoSection = () => {
   return (
     <Link href="/" passHref legacyBehavior>
       <a className="lg:w-[311px] px-6 py-4 md:border-r md:border-foreground/20 hover:underline">
-        <h4>dylan-nguyen</h4>
+        <h4 className="text-xl">DylanPacks</h4>
       </a>
     </Link>
   );
@@ -18,7 +24,7 @@ const LogoSection = () => {
 
 export default function Header() {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <header>
@@ -34,23 +40,30 @@ export default function Header() {
             );
           })}
         </div>
-        <div className="ml-auto hidden md:flex items-center h-full">
-          <ThemeModeButton />
-          {!session ? (
-            <NavigationItem
-              href="/auth/sign-in"
-              isActive={pathname === "/sign-in"}
-              borderPosition="left"
+        <div className="ml-auto hidden lg:flex items-center h-full">
+          {status === "unauthenticated" ? (
+            <Link
+              href="/auth/signin"
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "border-r rounded-none h-full"
+              )}
             >
               Sign in
-            </NavigationItem>
+            </Link>
+          ) : status === "authenticated" ? (
+            <UserButton
+              className="border-r"
+              avatar={session.user?.image ?? undefined}
+            >
+              {session.user?.name || session.user?.email || "Unknown User"}
+            </UserButton>
           ) : (
-            <NavigationItem href="#" isActive={false} borderPosition="left">
-              Logged
-            </NavigationItem>
+            <Skeleton className="w-32 h-8" />
           )}
+          <ThemeModeButton className="h-full rounded-none" />
         </div>
-        <div className="ml-auto block md:hidden h-full">
+        <div className="ml-auto block lg:hidden h-full">
           <Button
             variant="ghost"
             size="icon"
@@ -63,3 +76,13 @@ export default function Header() {
     </header>
   );
 }
+
+export const getServersideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  console.log(session);
+  return {
+    props: {
+      session,
+    },
+  };
+};

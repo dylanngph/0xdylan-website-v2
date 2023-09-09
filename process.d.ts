@@ -16,5 +16,7 @@ declare namespace NodeJS {
     DESCOPE_SECRET: string;
     DISCORD_ID: string;
     DISCORD_SECRET: string;
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: string;
   }
 }

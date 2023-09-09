@@ -45,7 +45,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="relative">
-        <div className="border boder-foreground/20 rounded-md bg-white dark:bg-foreground/5 px-6 pt-4 pb-8 text-sm relative z-[1]">
+        <div className="border rounded-md bg-white dark:bg-foreground/5 px-6 pt-4 pb-8 text-sm relative z-[1]">
           <Button
             variant="outline"
             size="icon"

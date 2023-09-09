@@ -7,6 +7,8 @@ import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import clsx from "clsx";
+import { Separator } from "./ui/separator";
+import { Input } from "./ui/input";
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -19,6 +21,18 @@ const AuthForm: FC<AuthFormProps> = ({ className, ...props }) => {
     setIsLoading(true);
     try {
       await signIn("google", { callbackUrl: "/" });
+    } catch (error) {
+      console.log(error);
+      errorNotify();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loginWithGithub = async () => {
+    setIsLoading(true);
+    try {
+      await signIn("github", { callbackUrl: "/" });
     } catch (error) {
       console.log(error);
       errorNotify();
@@ -50,9 +64,23 @@ const AuthForm: FC<AuthFormProps> = ({ className, ...props }) => {
           "text-foreground": !isLoading,
           "text-foreground/70": isLoading,
         })}
+        onClick={loginWithGithub}
       >
+        {isLoading ? (
+          <Loader2 className="w-5 h-5 animate-spin" />
+        ) : (
+          <i className="ri-github-fill text-xl" />
+        )}
         Sign In with Github
       </Button>
+      <Separator className="bg-foreground/20 my-2" />
+      <div className="flex flex-col gap-2">
+        <Input placeholder="Username" className="input-glass" />
+        <Input placeholder="Password" className="input-glass" />
+        <Button className="bg-[#4338ca] hover:bg-[#4338ca]/80 text-foreground">
+          Sign in
+        </Button>
+      </div>
     </div>
   );
 };
